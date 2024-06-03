@@ -5,7 +5,7 @@ let audioElement = new Audio("songs/1.mp3");
 let masterPlay = document.getElementById("masterPlay");
 let myProgressBar = document.getElementById("myProgressBar");
 let songItem = Array.from(document.getElementsByClassName("songItem"));
-
+let masterSongName=document.getElementById("masterSongName");
 let songs = [
   {
     songName: "let me love you",
@@ -101,13 +101,50 @@ Array.from(document.getElementsByClassName("songItemPlay")).forEach(
     element.addEventListener("click", (e) => {
         console.log(e);
       makeAllPlays();
+      songIndex=parseInt(e.target.id);
+      
       e.target.classList.remove("fa-play");
       e.target.classList.add("fa-pause");
-      audioElement.src='songs/2.mp3';
+      audioElement.src=`songs/${songIndex+1}.mp3`;
       audioElement.play();
       gif.style.opacity=1;
+      masterSongName.innerText=songs[songIndex].songName;
+
       audioElement.currentTime=0;
+      masterPlay.classList.remove("fa-play");
+    masterPlay.classList.add("fa-pause");
     });
   }
 );
- 
+
+
+document.getElementById('next').addEventListener('click',()=>{
+
+if(songIndex>=8){
+  songIndex=0;
+}else{
+  songIndex+=1;
+}
+audioElement.src=`songs/${songIndex+1}.mp3`;
+masterSongName.innerText=songs[songIndex].songName;
+audioElement.currentTime=0;
+audioElement.play();
+masterPlay.classList.remove('fa-play')
+masterPlay.classList.add('fa-pause')
+
+})
+document.getElementById('previous').addEventListener('click',()=>{
+
+  if(songIndex<=0){
+    songIndex=0;
+  }else{
+    songIndex-=1;
+  }
+  masterSongName.innerText=songs[songIndex].songName;
+  audioElement.src=`songs/${songIndex+1}.mp3`;
+  audioElement.currentTime=0;
+  audioElement.play();
+  masterPlay.classList.remove('fa-play')
+  masterPlay.classList.add('fa-pause')
+  
+  })
